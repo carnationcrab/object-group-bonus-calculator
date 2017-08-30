@@ -6,6 +6,7 @@ var robert = { name: "Robert", employeeNumber: "26835", annualSalary: "66000", r
 var mayella = { name: "Mayella", employeeNumber: "89068", annualSalary: "35000", reviewRating: 2 };
 
 var employees = [ atticus, jem, boo, scout, robert, mayella ];
+var finalBonusStats = []
 
 // YOU SHOULD NOT NEED TO CHANGE ANYTHING ABOVE THIS POINT
 
@@ -47,11 +48,39 @@ function calculatePercentage(employee) {
 }
 console.log(calculatePercentage(jem));
 
-function calculateTotalComp(employee, bonus){
-    var bonusAmount = parseInt(employee.annualSalary) * bonus;
-    console.log(bonusAmount);
+function calculateTotalComp(employee, bonusAmount){
     var totalComp = parseInt(employee.annualSalary) + bonusAmount;
     return totalComp;
 }
 console.log(calculateTotalComp(jem, 0.06));
 
+function calculateTotalBonus(employee, bonus){
+    var bonusAmount = parseInt(employee.annualSalary) * bonus;
+    console.log(bonusAmount);
+    return Math.round(bonusAmount);
+}
+console.log(calculateTotalBonus(jem, 0.062343));
+
+function BonusStats(nameIn, bonusPercentageIn, 
+    totalCompensationIn, totalBonusIn) {
+        this.name = nameIn;
+        this.bonusPercentage = bonusPercentageIn;
+        this.totalCompensation = totalCompensationIn;
+        this.totalBonus = totalBonusIn;
+    }
+
+function calculateBonusStats(employee) {
+    var name = employee.name;
+    var bonusPercentage = calculatePercentage(employee);
+    var totalBonus = calculateTotalBonus(employee, bonusPercentage);
+    var totalCompensation = calculateTotalComp(employee, totalBonus);
+
+    return new BonusStats(name, bonusPercentage, totalCompensation, totalBonus);
+}
+console.log('BonusStats(jem)', calculateBonusStats(jem));
+
+for (var i = 0; i < employees.length; i++) {
+    finalBonusStats.push(calculateBonusStats(employees[i]));
+}
+
+console.log('final bonus stats ->', finalBonusStats);
